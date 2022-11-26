@@ -25,16 +25,17 @@ class ShoppingCart():
     def add_cartitem(self, product: Product, quantity: float) -> list:
         """Combine products instances and corresponding purchased quantities"""
 
-        if product not in self.goods:
+        if product in self.goods:
+            idx = self.goods.index(product)
+            self.buyed_quantity[idx] += quantity
+        else:
             self.goods.append(product)
             self.buyed_quantity.append(quantity)
-        else:
-            self.buyed_quantity[self.goods.index(product)] = self.buyed_quantity[self.goods.index(product)] + quantity
 
     def get_cartprice(self) -> float:
         """Return the total price of entire cart"""
 
-        self.priceOfCart = 0
+        priceOfCart = 0
         for product, quantity in zip(self.goods, self.buyed_quantity):
-            self.priceOfCart += product.get_totalprice(quantity)
-        return round(self.priceOfCart, 2)
+            priceOfCart += product.get_totalprice(quantity)
+        return round(priceOfCart, 2)
