@@ -7,10 +7,10 @@ class Product:
         self.name = name
         self.price = price
 
-    def __str__(self):
+    def __repr__(self):
         """Implement a human readable string representation for Product class"""
 
-        return f"{self.name}, {self.price})"
+        return f'name = {self.name} and price = {self.price}'
 
     def __eq__(self, other) -> bool:
         """Implement equality comparison for the Product instances. The products are equal in case both objects have the
@@ -23,12 +23,12 @@ class Product:
     def __float__(self) -> float:
         """Implement type-casting for Product. Product cast to float type equals to its price"""
 
-        return float(self.price)
+        return self.price
 
     def __str__(self) -> str:
         """Implement type-casting for Product. Product cast to string type equals to its name"""
 
-        return str(self.name)
+        return self.name
 
     def get_total(self, quantity: float) -> float:
         """Return total price for a specified quantity of goods"""
@@ -44,7 +44,6 @@ class ShoppingCart():
 
         self.goods = []
         self.buyed_quantity = []
-        self.cart = [self.goods, self.buyed_quantity]
 
     def add_product(self, product: Product, quantity: float) -> list:
         """Combine products instances and corresponding purchased quantities"""
@@ -56,21 +55,19 @@ class ShoppingCart():
             self.goods.append(product)
             self.buyed_quantity.append(quantity)
 
-    def add_cart(self, cart_1: object, *args: tuple) -> list:
+    def __add__(self, other):
         """Implement addition 'carts to carts' behavior for ShoppingCart class"""
 
-        totalcart = cart_1.cart
-        products = totalcart[0]
-        quantities = totalcart[1]
-        for obj in args:
-            for product, quantity in zip(obj.goods, obj.buyed_quantity):
-                if product in products:
-                    idx = products.index(product)
-                    quantities[idx] += quantity
-                else:
-                    products.append(product)
-                    quantities.append(quantity)
-        return totalcart
+        if isinstance(other, Product):
+            self.add_product(other, 1)
+            return self
+
+        elif isinstance(other, ShoppingCart):
+            cart_obj = ShoppingCart()
+            for product, quantity in zip(self.goods + other.goods,
+                                         self.buyed_quantity + other.buyed_quantity):
+                cart_obj.add_product(product, quantity)
+            return cart_obj
 
     def get_total(self) -> float:
         """Return the total price of entire cart"""
@@ -81,11 +78,11 @@ class ShoppingCart():
         return round(totalprice, 2)
 
     def __float__(self) -> float:
-        """Implement type-casting for ShoppingCart. ShoppingCart cast to float type equals to its total price"""
+        """Implement type-casting for ShoppingCart.ShoppingCart cast to float type equals to its total price"""
 
-        return float(totalprice)
+        return totalprice
 
-    def __str__(self):
-        """Implement a human readable string representation for ShoppingCart class"""
+    def __repr__(self):
+        """Implement a human readable string representation for ShoppingCart class """
 
-        return 'goods: %s, quantity: %s, cart: %s' %(self.goods, self.buyed_quantity, self.cart)
+        return f"Your cart contains goods = {self.goods}, appropriate quantities = {self.buyed_quantity}"
