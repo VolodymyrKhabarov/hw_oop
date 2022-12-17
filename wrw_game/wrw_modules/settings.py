@@ -2,8 +2,14 @@
 This module contains constants values for the game.
 """
 
-CHOICES = ('warrior', 'robber', 'wizard')
-WIN_CONDITION = (('warrior', 'robber'), ('robber', 'wizard'), ('wizard', 'warrior'))
+WARRIOR = '1'
+ROBBER = '2'
+WIZARD = '3'
+VALID_CHOICES = WARRIOR, ROBBER, WIZARD
+WIN_CONDITION = ((WARRIOR, ROBBER), (ROBBER, WIZARD), (WIZARD, WARRIOR))
 PLAYER_HEALTH = 5
 REWARD = 5
 LEVEL = 1
+WIN = 1
+LOSE = -1
+DRAW = 0

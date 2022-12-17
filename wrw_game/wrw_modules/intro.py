@@ -3,8 +3,7 @@ This module has a description and rules of WRW game
 """
 import sys
 
-from . import engine
-from . import rules
+from wrw_modules import engine
 
 
 def menu():
@@ -27,9 +26,10 @@ def menu():
         print()
 
         if choice == "0":
-            print('GOOD BYE!')
             sys.exit()
         elif choice == "1":
-            rules.get_rules()
+            with open('rules.txt', encoding='utf-8') as file:
+                for line in file:
+                    print(line)
         elif choice == "2":
             engine.play()
